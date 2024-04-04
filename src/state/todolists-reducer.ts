@@ -27,8 +27,10 @@ type ActionsType =
   | ChangeTodolistTitleActionType
   | ChangeTodolistFilterActionType
 
+const initialState: Array<TodolistType> = []
+
 export const todolistsReducer = (
-  state: Array<TodolistType>,
+  state = initialState,
   action: ActionsType
 ): Array<TodolistType> => {
   switch (action.type) {
@@ -56,7 +58,7 @@ export const todolistsReducer = (
       return [...state]
     }
     default:
-      throw new Error("I don't understand this type")
+      return state
   }
 }
 
