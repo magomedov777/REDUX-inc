@@ -1,5 +1,6 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React from 'react'
+import React, { useCallback } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import './App.css'
 import { TaskType, Todolist } from './Todolist'
@@ -32,16 +33,19 @@ export type TasksStateType = {
   [key: string]: Array<TaskType>
 }
 
-export function AppWithRedux() {
+export const AppWithRedux = () => {
   let todolists = useSelector<AppRootStateType, Array<TodolistType>>(
     (state) => state.todolists
   )
 
   const dispatch = useDispatch()
 
-  function addTodolist(title: string) {
-    dispatch(addTodolistAC(title))
-  }
+  const addTodolist = useCallback(
+    (title: string) => {
+      dispatch(addTodolistAC(title))
+    },
+    [dispatch]
+  )
 
   return (
     <div className="App">
