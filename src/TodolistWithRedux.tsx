@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React, { ChangeEvent, memo, useCallback } from 'react'
+import React, { ChangeEvent, memo, useCallback, useMemo } from 'react'
 import { FilterValuesType, TasksStateType } from './App'
 import { AddItemForm } from './AddItemForm'
 import { EditableSpan } from './EditableSpan'
@@ -20,6 +20,7 @@ import {
   changeTodolistTitleAC,
   removeTodolistAC,
 } from './state/todolists-reducer'
+import { Task } from './Task'
 
 export type TaskType = {
   id: string
@@ -77,6 +78,16 @@ export const TodolistWithRedux = memo((props: PropsType) => {
     tasks = tasks.filter((t) => t.isDone === true)
   }
 
+  // useMemo(() => {
+  //   if (props.filter === 'active') {
+  //     tasks = tasks.filter((t) => t.isDone === false)
+  //   }
+  //   if (props.filter === 'completed') {
+  //     tasks = tasks.filter((t) => t.isDone === true)
+  //   }
+  //   return tasks
+  // }, [])
+
   return (
     <div>
       <h3>
@@ -88,30 +99,7 @@ export const TodolistWithRedux = memo((props: PropsType) => {
       <AddItemForm addItem={addTask} />
       <div>
         {tasks.map((t) => {
-          const onClickHandler = () => dispatch(removeTaskAC(t.id, props.id))
-
-          const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-            let newIsDoneValue = e.currentTarget.checked
-            dispatch(changeTaskStatusAC(t.id, newIsDoneValue, props.id))
-          }
-          const onTitleChangeHandler = (newValue: string) => {
-            dispatch(changeTaskTitleAC(t.id, newValue, props.id))
-          }
-
-          return (
-            <div key={t.id} className={t.isDone ? 'is-done' : ''}>
-              <Checkbox
-                checked={t.isDone}
-                color="primary"
-                onChange={onChangeHandler}
-              />
-
-              <EditableSpan value={t.title} onChange={onTitleChangeHandler} />
-              <IconButton onClick={onClickHandler}>
-                <Delete />
-              </IconButton>
-            </div>
-          )
+          return <Task key={t.id} todolistId={props.id} task={t} />
         })}
       </div>
       <div>
