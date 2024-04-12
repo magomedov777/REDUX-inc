@@ -4,6 +4,7 @@ import { AppWithRedux } from '../AppWithRedux'
 import { Provider } from 'react-redux'
 import { store } from '../state/store'
 import React from 'react'
+import { ReduxStoreProviderDecorator } from '../state/StoreProviderDecorator'
 
 const meta: Meta<typeof AppWithRedux> = {
   title: 'TODOLISTS/AppWithRedux',
@@ -12,15 +13,12 @@ const meta: Meta<typeof AppWithRedux> = {
     layout: 'centered',
   },
   tags: ['autodocs'],
+  decorators: [ReduxStoreProviderDecorator],
 }
 
 export default meta
 type Story = StoryObj<typeof AppWithRedux>
 
 export const AppWithReduxStory: Story = {
-  render: () => (
-    <Provider store={store}>
-      <AppWithRedux />
-    </Provider>
-  ),
+  render: () => <AppWithRedux />,
 }

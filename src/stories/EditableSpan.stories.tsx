@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { EditableSpan } from '../EditableSpan'
-import { store } from '../state/store'
-import { Provider } from 'react-redux'
+
 import React from 'react'
+import { ReduxStoreProviderDecorator } from '../state/StoreProviderDecorator'
 
 const meta: Meta<typeof EditableSpan> = {
   title: 'TODOLISTS/EditableSpan',
@@ -17,6 +17,7 @@ const meta: Meta<typeof EditableSpan> = {
       action: 'clicked',
     },
   },
+  decorators: [ReduxStoreProviderDecorator],
 }
 
 export default meta
@@ -26,14 +27,4 @@ export const EditableSpanStory: Story = {
   args: {
     value: 'html',
   },
-  render: () => (
-    <Provider store={store}>
-      <EditableSpan
-        value={''}
-        onChange={function (newValue: string): void {
-          throw new Error('Function not implemented.')
-        }}
-      />
-    </Provider>
-  ),
 }
